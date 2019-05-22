@@ -1,10 +1,10 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
-    <bean id="AccountUpsert"
+    <bean id="ContactUpsert"
         class="com.salesforce.dataloader.process.ProcessRunner"
         singleton="false">
         <description>AccountUpsert job gets the account record from the CSV file and inserts it into Salesforce.</description>
-        <property name="name" value="JyutyuUpsert"/>
+        <property name="name" value="ContactUpsert"/>
         <property name="configOverrideMap">
             <map>
                 <entry key="sfdc.useBulkApi" value="true"/>
