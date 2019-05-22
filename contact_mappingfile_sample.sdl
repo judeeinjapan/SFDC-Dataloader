@@ -1,0 +1,8 @@
+#Account object:Foreign key Field is ForeignKey__c(Unique)
+#This mappingfile is upsert contact data mapping
+#Contact object:Foreign Key Field is ConNo__c(Unique & custom field),It will set at XML file with PARAMETER "sfdc.externalIdField"
+#This file hava to UTF-8, Not UTF-8(BOM) or else, if so before "ForeignKey__c" May be exist ￥ then can not mapping and occur error
+#【=】left is file header
+#【=】right is salesforce contact field API
+ForeignKey__c=Account:ForeignKey__c
+ConNo__c=ConNo__c
