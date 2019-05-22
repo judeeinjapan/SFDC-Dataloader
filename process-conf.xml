@@ -11,7 +11,7 @@
                 <entry key="sfdc.debugMessages"
                         value="true"/>
                 <entry key="sfdc.endpoint"
-                        value="https://CS72.salesforce.com"/>
+                        value="https://your_instans_name.salesforce.com"/><!-- csxx or APx-->
                 <entry key="sfdc.username"
                         value="your_user_name@example.com"/>
                 <entry key="sfdc.password"
