@@ -1,0 +1,79 @@
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    <bean id="AccountUpsert"
+        class="com.salesforce.dataloader.process.ProcessRunner"
+        singleton="false">
+        <description>AccountUpsert job gets the account record from the CSV file and inserts it into Salesforce.</description>
+        <property name="name" value="JyutyuUpsert"/>
+        <property name="configOverrideMap">
+            <map>
+                <entry key="sfdc.useBulkApi" value="true"/>
+                <entry key="sfdc.debugMessages"
+                        value="true"/>
+                <entry key="sfdc.endpoint"
+                        value="https://CS72.salesforce.com"/>
+                <entry key="sfdc.username"
+                        value="your_user_name@example.com"/>
+                <entry key="sfdc.password"
+                        value="your_secret_key_encrypt_with_your_pass_word"/>
+                <entry key="process.encryptionKeyFile" 
+                        value="F:\key.txt"/><!-- your secret key file path -->
+                <entry key="sfdc.timeoutSecs"
+                        value="600"/>
+                <entry key="sfdc.loadBatchSize"
+                        value="200"/>
+                <entry key="sfdc.entity"
+                        value="Contact"/><!-- you want to upsert object API name -->
+                <entry key="process.operation"
+                        value="upsert"/><!-- Upsert operation set -->
+                <entry key="sfdc.externalIdField" value="ConNo__c"/><!-- set Contact or other object Foreign Key Field API Name -->
+                <entry key="process.mappingFile" 
+                        value="F:\contact_mappingfile_sample.sdl"/><!-- set you set mapping file path -->
+                <entry key="dataAccess.name" 
+                        value="F:\contact_data_.tsv"/><!-- you prepared tsv file for csv file path -->
+                <entry key="process.outputSuccess" 
+                        value="F:\logs\Contact_success.csv"/><!-- set you want to save success csv file out put path in your PC-->
+                <entry key="process.outputError" 
+                        value="F:\Contact_error.csv"/><!-- set you want to save error csv file out put path in your PC-->
+                <entry key="dataAccess.type"
+                        value="csvRead"/>
+                <entry key="process.initialLastRunDate" 
+                        value="2005-12-01T00:00:00.000-0800"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="accountExtract"
+          class="com.salesforce.dataloader.process.ProcessRunner"
+          singleton="false">
+      <description>csvAccountExtract job gets account info from salesforce and saves info a CSV file."</description>
+        <property name="name" value="accountExtract"/>
+        <property name="configOverrideMap">
+            <map>
+                <entry key="sfdc.entity" value="Account"/>
+                <entry key="sfdc.extractionRequestSize" value="500"/>
+                <entry key="sfdc.extractionSOQL" value="Select Id, Name FROM Account Where RecordType.DeveloperName = 'Kokyaku'/>
+                <entry key="process.operation" value="extract"/>
+                <entry key="dataAccess.type" value="csvWrite"/>
+                <entry key="dataAccess.name" value="F:\Account_output_file.csv"/><!-- set you save extract account csv file out put path in your PC-->
+            </map>
+        </property>
+    </bean>
+    <bean id="accountUpdate"
+          class="com.salesforce.dataloader.process.ProcessRunner"
+          singleton="false">
+        <description>Update Account job gets account info from salesforce and saves info a CSV file."</description>
+        <property name="name" value="accountUpdate"/>
+        <property name="configOverrideMap">
+            <map>
+                <entry key="sfdc.entity" value="Account"/>
+                <entry key="process.operation" value="update"/>
+                <entry key="process.mappingFile" value="F:\sdl\accountUpdateMap.sdl"/><!-- set your PC path :mapping sdl file-->
+                <entry key="dataAccess.writeUTF8" value="true"/>
+                <entry key="process.outputError" value="F:\log\Account_yyyymmdd_err.csv"/><!--set yourself path in your PC-->
+                <entry key="process.outputSuccess" value="F:\logs\Account_yyyymmdd.csv"/><!--set yourself path in your PC-->
+                <entry key="dataAccess.type" value="csvRead"/>
+                <entry key="dataAccess.name" value="F:\Account_Data_file.csv"/><!--set yourself path in your PC-->
+            </map>
+        </property>
+    </bean>
+</beans>
